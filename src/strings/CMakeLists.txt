@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(strutils VERSION 4.2 LANGUAGES C CXX)
+project(libstring VERSION 4.2 LANGUAGES C CXX)
  
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -23,7 +23,7 @@ endif()
 
 set(DIR_BUILD "${PLATFORM_DIR}-${ARQUITECTURE_DIR}")
  
-set(SRC_strutils
+set(SRC_libstring
     "${CMAKE_CURRENT_SOURCE_DIR}/../core.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/../core.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/core_encoding.h"
@@ -33,31 +33,31 @@ set(SRC_strutils
     "${CMAKE_CURRENT_SOURCE_DIR}/core/strings.rc"
 )
  
-add_library(strutils SHARED ${SRC_strutils})
+add_library(libstring SHARED ${SRC_libstring})
  
-set_target_properties(strutils PROPERTIES LINK_FLAGS "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/core/strings.def")
+set_target_properties(libstring PROPERTIES LINK_FLAGS "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/core/strings.def")
  
-set_target_properties(strutils PROPERTIES
+set_target_properties(libstring PROPERTIES
     PREFIX ""
-    OUTPUT_NAME "libstr"
+    OUTPUT_NAME "libstring"
     SUFFIX ".dll"
     WINDOWS_EXPORT_ALL_SYMBOLS FALSE 
 ) 
 
-target_compile_definitions(strutils PRIVATE
+target_compile_definitions(libstring PRIVATE
     WIN32 _WINDOWS _USRDLL UNICODE _UNICODE _CRT_SECURE_NO_WARNINGS TARGET_OS_WIN32 WIN32_LEAN_AND_MEAN
 ) 
  
 set(DIR_BIN "${CMAKE_CURRENT_SOURCE_DIR}/../../bin/${DIR_BUILD}")
 
-set_target_properties(strutils PROPERTIES
+set_target_properties(libstring PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY "${DIR_BIN}/$<CONFIG>"
     LIBRARY_OUTPUT_DIRECTORY "${DIR_BIN}/$<CONFIG>"
     ARCHIVE_OUTPUT_DIRECTORY "${DIR_BIN}/$<CONFIG>"
 )
  
-add_custom_command(TARGET strutils POST_BUILD
+add_custom_command(TARGET libstring POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_CURRENT_SOURCE_DIR}/examples"
-        "$<TARGET_FILE_DIR:strutils>/"
+        "$<TARGET_FILE_DIR:libstring>/"
 )

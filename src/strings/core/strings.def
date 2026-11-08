@@ -1,2 +1,2 @@
-LIBRARY "libstr.dll"
+LIBRARY "libstring.dll"
 EXPORTS
