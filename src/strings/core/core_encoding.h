@@ -18,7 +18,7 @@ extern "C"
 {
 #endif
 
-    #include "../../core.h"
+    #include "core.h"
 
     CORE_API int StrDetectBOM(const unsigned char *bytes, int len, int *startOffset);
 

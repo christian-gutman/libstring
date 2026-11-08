@@ -22,10 +22,23 @@ if(NOT ARQUITECTURE_DIR)
 endif()
 
 set(DIR_BUILD "${PLATFORM_DIR}-${ARQUITECTURE_DIR}")
+
+set(CORESDK_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../external/core-c-sdk)
+
+include(FetchContent)
+set(FETCHCONTENT_UPDATES_DISCONNECTED ON CACHE BOOL "No buscar actualizaciones en GitHub si ya existe")
  
+FetchContent_Declare(
+  coresdk
+  GIT_REPOSITORY https://github.com/christian-gutman/core-c-sdk
+  GIT_TAG        v2.6.0.0
+  SOURCE_DIR     ${CORESDK_DIR}
+)
+FetchContent_MakeAvailable(coresdk)
+
 set(SRC_libstring
-    "${CMAKE_CURRENT_SOURCE_DIR}/../core.h"
-    "${CMAKE_CURRENT_SOURCE_DIR}/../core.c"
+    "${CORESDK_DIR}/src/core/core.h"   
+    "${CORESDK_DIR}/src/core/core.c"  
     "${CMAKE_CURRENT_SOURCE_DIR}/core/core_encoding.h"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/core_encoding.c"
     "${CMAKE_CURRENT_SOURCE_DIR}/core/core_string.h"
@@ -34,7 +47,14 @@ set(SRC_libstring
 )
  
 add_library(libstring SHARED ${SRC_libstring})
+
+
+target_include_directories(libstring PRIVATE
+    "${CORESDK_DIR}/src/core"                             # Para resolver rutas relativas del SDK
+)
  
+
+
 set_target_properties(libstring PROPERTIES LINK_FLAGS "/DEF:${CMAKE_CURRENT_SOURCE_DIR}/core/strings.def")
  
 set_target_properties(libstring PROPERTIES
