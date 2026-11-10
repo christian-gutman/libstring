@@ -7,7 +7,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
  
 if(NOT MSVC)
-    message(FATAL_ERROR "libstr requiere arquitectura Win y compilador MSVC.")
+    message(FATAL_ERROR "libstring requiere arquitectura Win y compilador MSVC.")
 endif()
  
 if(CMAKE_SIZEOF_VOID_P EQUAL 4)
